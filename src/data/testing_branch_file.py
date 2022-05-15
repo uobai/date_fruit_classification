@@ -1,2 +1,3 @@
 def testing():
-    pass
+    
+    return None
