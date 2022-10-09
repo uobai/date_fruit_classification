@@ -31,14 +31,27 @@ def main():
     X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.25, random_state=123,
                                                       stratify=y_train)
 
-    clf = GradientBoostingClassifier()
+    clf = GradientBoostingClassifier(
+        learning_rate=0.01,
+        n_estimators=500,
+        max_depth=2,
+        min_samples_split=10,
+    )
 
     clf.fit(X_train, y_train)
 
+    y_pred_train = clf.predict(X_train)
     y_pred_val = clf.predict(X_val)
+    y_pred_test = clf.predict(X_test)
 
-    print(accuracy_score(y_val, y_pred_val))
-    print(f1_score(y_val, y_pred_val, average='weighted'))
+    print("Training accuracy score:", accuracy_score(y_train, y_pred_train))
+    print("Training F1 score:", f1_score(y_train, y_pred_train, average='weighted'))
+
+    print("\nValidation accuracy score:", accuracy_score(y_val, y_pred_val))
+    print("Validation F1 score:", f1_score(y_val, y_pred_val, average='weighted'))
+
+    print("\nTest accuracy score:", accuracy_score(y_test, y_pred_test))
+    print("Test F1 score:", f1_score(y_test, y_pred_test, average='weighted'))
 
 
 if __name__ == '__main__':
